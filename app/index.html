@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+        <title></title>
+        <meta name="description" content=""/>
+        <meta name="viewport" content="width=device-width"/>
+
+        <link rel="stylesheet" href="styles/main.css"/>
+        <link rel="stylesheet" href="styles/app.css"/>
+        <link rel="stylesheet" href="components/bootstrap/css/bootstrap-responsive.min.css"/>
+        <link rel="stylesheet" href="components/bootstrap/css/bootstrap.min.css"/>
+        <link rel="stylesheet" href="components/bwizard/css/bwizard.css"/>
+        <script src="scripts/vendor/jquery-1.7.2.min.js"></script>
+        <script src="scripts/vendor/handlebars-1.0.0.beta.6.js"></script>
+        <script src="scripts/vendor/ember-1.0.0-pre.2.js"></script>
+                
+    </head>
+   
+
+    <body>
+        <script type="text/x-handlebars" data-template-name="preview">
+            <div class="span7">
+                <div class="form-inline margin20" >
+                    {{view Ember.TextField}}
+                    <a class="btn" {{action "add"}}>Add to Repository</a>
+                </div>
+                
+                <table class="table table-condensed table-bordered preview-table">
+                    <thead>
+                        <tr>
+                            <th>
+
+                                <div class="dropdown">
+                                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">...</a>
+                                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                        <li><a {{action selectAll}}>all</a></li>
+                                        <li></li>
+                                    </ul>
+                                </div>
+                            </th>
+                            <th>date</th>
+                            <th>subject</th>
+                            <th>amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {{#each item in Emoney.preview}}
+                        {{#view Emoney.PreviewItemView}}
+                            <tr>
+                                <td>{{view Em.Checkbox checkedBinding="item.isSelected"}}</td>
+                                <td>{{item.date}}</td>
+                                <td>{{item.subject}}</td>
+                                <td>{{item.amount}}</td>
+                            </tr>
+                        {{/view}}
+                    {{/each}}
+                    </tbody>
+                </table>
+            </div>
+        </script>
+
+        <script type="text/x-handlebars" data-template-name="input">
+            <div class="span5 input-div">
+                {{view Ember.TextArea valueBinding="view.typing" class="input-area"}}
+                <a href="#" class="btn" {{action "parse"}}>Parse and Preview</a>
+            </div>
+        </script>
+
+        <script type="text/x-handlebars" data-template-name="repository">
+            <div class="span12">
+                <table class="table table-condensed table-bordered">
+                    <thead>
+                        <tr>
+                        <th>date</th>
+                            <th>subject</th>
+                            <th>amount</th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {{#each Emoney.repository}}
+                        {{#view Emoney.PreviewItemView}}
+                            <tr>
+                            <td>{{date}}</td>
+                                <td>{{subject}}</td>
+                                <td>{{amount}}</td>
+                                
+                            </tr>
+                        {{/view}}
+                    {{/each}}
+                    </tbody>
+                </table>
+            </div>
+        </script>
+
+        <script type="text/x-handlebars">
+            <div class="container">
+                <div class="page-header row">
+                    <h1>Cheerio!</h1>
+                </div>
+                <div class="middle">
+                <!--Modal-->
+
+                    <a href="#myModal" role="button" class="btn" data-toggle="modal">Import...</a>
+     
+                    <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h3 id="myModalLabel">Modal header</h3>
+                        </div>
+                        <div class="modal-body">
+
+                        <!-- Wizard -->
+                            <div id="wizard">
+                                <ol>
+                                    <li>Input</li>
+                                    <li>Preview</li>
+                                </ol>
+                                <div>
+                                    {{view Emoney.InputView}}
+                                </div>
+                                <div>
+                                    {{view Emoney.PreviewView}}
+                                </div>
+                            </div>
+
+                        <!-- end of wizard-->
+
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+                            <button class="btn btn-primary">Save changes</button>
+                        </div>
+                    </div>
+                <!--end of Modal-->    
+
+                </div>
+            
+                <div class="row botton-div">
+                    {{view Emoney.RepositoryView}}
+                </div>
+            </div>
+        </script>
+    
+
+        <!--[if lt IE 7]>
+            <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
+            <![endif]-->
+
+            <!-- Add your site or application content here -->
+
+            <!-- build:js scripts/scripts.js -->
+
+            <!-- endbuild -->
+
+            <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+        <script>
+        // var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
+        // (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+        //     g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+        //     s.parentNode.insertBefore(g,s)}(document,'script'));
+        </script>
+        <script src="components/bootstrap/js/bootstrap.js"></script>
+        <script src="components/bwizard/js/bwizard.js"></script>
+        <script src="scripts/main.js"></script>
+        <script src="scripts/controllers/application-controller.js"></script>
+        <script src="scripts/views/application-view.js"></script>
+ 
+        <script src="scripts/ui.js"></script>
+
+    </body>
+</html>
