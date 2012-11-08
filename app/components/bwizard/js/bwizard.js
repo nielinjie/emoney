@@ -308,27 +308,28 @@ $.widget("bootstrap.bwizard", {
 
 			this.buttons = $('<ul class="pager"/>');
 			this.buttons.addClass('bwizard-buttons');
-
-			this.backBtn =
-				$("<li class='previous'><a href='#'>" +
-					backBtnText + "</a></li>")
-				.appendTo(this.buttons).bind({
-					'click': function () {
-						self.back();
-						return false;
-					}
-				}).attr("role", "button");
-
-			this.nextBtn =
-				$("<li class='next'><a href='#'>" +
-					nextBtnText + "</a>")
-				.appendTo(this.buttons).bind({
-					'click': function () {
-						self.next();
-						return false;
-					}
-				}).attr("role", "button");
-
+			if(backBtnText != ''){
+				this.backBtn =
+					$("<li class='previous'><a href='#'>" +
+						backBtnText + "</a></li>")
+					.appendTo(this.buttons).bind({
+						'click': function () {
+							self.back();
+							return false;
+						}
+					}).attr("role", "button");
+			}
+			if(nextBtnText != ''){
+				this.nextBtn =
+					$("<li class='next'><a href='#'>" +
+						nextBtnText + "</a>")
+					.appendTo(this.buttons).bind({
+						'click': function () {
+							self.next();
+							return false;
+						}
+					}).attr("role", "button");
+			}
 			this.buttons.appendTo(this.element);
 		}
 	},
@@ -471,12 +472,16 @@ $.widget("bootstrap.bwizard", {
 		}
 
 		if (this.buttons && !o.loop) {
-			this.backBtn[o.activeIndex <= 0 ? 'addClass' :
-				'removeClass']('disabled')
-				.attr('aria-disabled', o.activeIndex === 0);
+			if(this.backBtn){
+				this.backBtn[o.activeIndex <= 0 ? 'addClass' :
+					'removeClass']('disabled')
+					.attr('aria-disabled', o.activeIndex === 0);
+			}
+			if(this.nextBtn){
 			this.nextBtn[o.activeIndex >= this.panels.length - 1 ?
 				'addClass' : 'removeClass']('disabled')
 				.attr('aria-disabled', (o.activeIndex >= this.panels.length - 1));
+			}
 		}
 	},
 

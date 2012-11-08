@@ -2,6 +2,9 @@ Emoney.ApplicationController = Ember.ObjectController.extend({
   // Implement your controller here.
 });
 
+
+Emoney.categoryNames=["Cash","Criet"]
+
 Emoney.Recorder=Ember.Object.extend({
 	isSelected:false,
 	memo: '',

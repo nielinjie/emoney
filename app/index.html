@@ -24,51 +24,69 @@
 
     <body>
         <script type="text/x-handlebars" data-template-name="preview">
-            <div class="span7">
-                <div class="form-inline margin20" >
-                    {{view Ember.TextField}}
-                    <a class="btn" {{action "add"}}>Add to Repository</a>
+            <div id="wizard">
+                <ol>
+                    <li>Input</li>
+                    <li>Preview</li>
+                </ol>
+                <!-- page one of wizard -->
+                <div class="input-div">
+                    {{view Ember.TextArea valueBinding="view.typing" class="input-area"}}
+                    <a href="#" class="btn" {{action "parse"}}>Parse and Preview</a>
                 </div>
-                
-                <table class="table table-condensed table-bordered preview-table">
-                    <thead>
-                        <tr>
-                            <th>
 
-                                <div class="dropdown">
-                                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">...</a>
-                                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-                                        <li><a {{action selectAll}}>all</a></li>
-                                        <li></li>
-                                    </ul>
-                                </div>
-                            </th>
-                            <th>date</th>
-                            <th>subject</th>
-                            <th>amount</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    {{#each item in Emoney.preview}}
-                        {{#view Emoney.PreviewItemView}}
-                            <tr>
-                                <td>{{view Em.Checkbox checkedBinding="item.isSelected"}}</td>
-                                <td>{{item.date}}</td>
-                                <td>{{item.subject}}</td>
-                                <td>{{item.amount}}</td>
-                            </tr>
-                        {{/view}}
-                    {{/each}}
-                    </tbody>
-                </table>
+                <!-- page two of wizard -->
+                <div>
+                                        <div class="scroll-box h250">
+                        <table class="table table-condensed table-bordered preview-table">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <div class="dropdown">
+                                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">...</a>
+                                            <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                                <li><a {{action selectAll}}>all</a></li>
+                                                <li></li>
+                                            </ul>
+                                        </div>
+                                    </th>
+                                    <th>Date</th>
+                                    <th>Subject</th>
+                                    <th>Amount</th>
+                                    <th>Memo</th>
+                                    <th>Category</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {{#each item in Emoney.preview}}
+                                {{#view Emoney.PreviewItemView}}
+                                    <tr>
+                                        <td>{{view Em.Checkbox checkedBinding="item.isSelected"}}</td>
+                                        <td>{{item.date}}</td>
+                                        <td>{{item.subject}}</td>
+                                        <td>{{item.amount}}</td>
+                                        <td>{{#if item.isSelected}}{{view Ember.TextField valueBinding="item.memo"}}{{/if}}</td>
+                                        <td>{{view Ember.Select contentBinding="Emoney.categoryNames"}}</td>
+                                    </tr>
+                                {{/view}}
+                            {{/each}}
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                    <div class="form-inline margin20" >
+                        {{view Ember.TextField valueBinding="view.selectedMemo"}}
+                        {{view Ember.Select contentBinding="Emoney.categoryNames"}}
+                        <a class="btn" {{action "add"}}>Add to Repository</a>
+                    </div>
+
+                </div>
             </div>
         </script>
 
         <script type="text/x-handlebars" data-template-name="input">
-            <div class="span5 input-div">
-                {{view Ember.TextArea valueBinding="view.typing" class="input-area"}}
-                <a href="#" class="btn" {{action "parse"}}>Parse and Preview</a>
-            </div>
+            
         </script>
 
         <script type="text/x-handlebars" data-template-name="repository">
@@ -116,25 +134,14 @@
                         <div class="modal-body">
 
                         <!-- Wizard -->
-                            <div id="wizard">
-                                <ol>
-                                    <li>Input</li>
-                                    <li>Preview</li>
-                                </ol>
-                                <div>
-                                    {{view Emoney.InputView}}
-                                </div>
-                                <div>
-                                    {{view Emoney.PreviewView}}
-                                </div>
-                            </div>
+
+                                {{view Emoney.PreviewView}}
 
                         <!-- end of wizard-->
 
                         </div>
                         <div class="modal-footer">
                             <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-                            <button class="btn btn-primary">Save changes</button>
                         </div>
                     </div>
                 <!--end of Modal-->    
