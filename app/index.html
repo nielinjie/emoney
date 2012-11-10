@@ -14,10 +14,12 @@
         <link rel="stylesheet" href="styles/app.css"/>
         <link rel="stylesheet" href="components/bootstrap/css/bootstrap-responsive.min.css"/>
         <link rel="stylesheet" href="components/bootstrap/css/bootstrap.min.css"/>
-        <link rel="stylesheet" href="components/bwizard/css/bwizard.css"/>
+        <link rel="stylesheet" href="styles/vendor/bwizard.css"/>
         <script src="scripts/vendor/jquery-1.7.2.min.js"></script>
         <script src="scripts/vendor/handlebars-1.0.0.beta.6.js"></script>
         <script src="scripts/vendor/ember-1.0.0-pre.2.js"></script>
+
+        <script src="scripts/vendor/d3.v3.js"></script>
                 
     </head>
    
@@ -42,13 +44,7 @@
                             <thead>
                                 <tr>
                                     <th>
-                                        <div class="dropdown">
-                                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">...</a>
-                                            <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-                                                <li><a {{action selectAll}}>all</a></li>
-                                                <li></li>
-                                            </ul>
-                                        </div>
+                                        
                                     </th>
                                     <th>Date</th>
                                     <th>Subject</th>
@@ -65,8 +61,12 @@
                                         <td>{{item.date}}</td>
                                         <td>{{item.subject}}</td>
                                         <td>{{item.amount}}</td>
-                                        <td>{{#if item.isSelected}}{{view Ember.TextField valueBinding="item.memo"}}{{/if}}</td>
-                                        <td>{{view Ember.Select contentBinding="Emoney.categoryNames"}}</td>
+                                        <td>
+                                            {{item.memo}}
+                                        </td>
+                                        <td>
+                                            {{item.category}}
+                                        </td>
                                     </tr>
                                 {{/view}}
                             {{/each}}
@@ -76,7 +76,18 @@
                     </div>
 
                     <div class="form-inline margin20" >
+                        <div class="dropdown">
+                            <a class="dropdown-toggle btn" data-toggle="dropdown" href="#">Select...</a>
+                            <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                <!-- can this generated dynamic?-->
+                                {{#each fiName in view.filterNames}}
+                                <li><a {{action selectByFilter fiName}}>{{fiName}}</a></li>
+                                {{/each}}
+                            </ul>
+                        </div>
+                        Memo: 
                         {{view Ember.TextField valueBinding="view.selectedMemo"}}
+                        Category: 
                         {{view Ember.Select contentBinding="Emoney.categoryNames"}}
                         <a class="btn" {{action "add"}}>Add to Repository</a>
                     </div>
@@ -85,29 +96,28 @@
             </div>
         </script>
 
-        <script type="text/x-handlebars" data-template-name="input">
-            
-        </script>
-
+       
         <script type="text/x-handlebars" data-template-name="repository">
             <div class="span12">
                 <table class="table table-condensed table-bordered">
                     <thead>
                         <tr>
-                        <th>date</th>
+                            <th>date</th>
                             <th>subject</th>
                             <th>amount</th>
-                            
+                            <th>memo</th>
+                            <th>category</th>
                         </tr>
                     </thead>
                     <tbody>
                     {{#each Emoney.repository}}
                         {{#view Emoney.PreviewItemView}}
                             <tr>
-                            <td>{{date}}</td>
+                                <td>{{date}}</td>
                                 <td>{{subject}}</td>
                                 <td>{{amount}}</td>
-                                
+                                <td>{{memo}}</td>
+                                <td>{{category}}</td>
                             </tr>
                         {{/view}}
                     {{/each}}
@@ -151,6 +161,8 @@
                 <div class="row botton-div">
                     {{view Emoney.RepositoryView}}
                 </div>
+                <div id="chart-div">
+                </div>
             </div>
         </script>
     
@@ -173,12 +185,13 @@
         //     s.parentNode.insertBefore(g,s)}(document,'script'));
         </script>
         <script src="components/bootstrap/js/bootstrap.js"></script>
-        <script src="components/bwizard/js/bwizard.js"></script>
+        <script src="scripts/vendor/bwizard.js"></script>
         <script src="scripts/main.js"></script>
         <script src="scripts/controllers/application-controller.js"></script>
         <script src="scripts/views/application-view.js"></script>
  
         <script src="scripts/ui.js"></script>
+
 
     </body>
 </html>

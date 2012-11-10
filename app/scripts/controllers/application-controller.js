@@ -1,3 +1,6 @@
+
+var parseDate = d3.time.format("%Y-%m-%d").parse;
+
 Emoney.ApplicationController = Ember.ObjectController.extend({
   // Implement your controller here.
 });
@@ -12,6 +15,7 @@ Emoney.Recorder=Ember.Object.extend({
 	amount: 0,
 	date: new Date(),
 	accountName:'',
+	category:''
 	});
 
 Emoney.preview = Ember.ArrayProxy.create({
@@ -42,9 +46,9 @@ Emoney.parser = Ember.Controller.create({
 			var accountString = parts[4].trim();
 			return Emoney.Recorder.create({
 				subject:subjectString,
-				amount:amountString,
-				date:dateString,
-				accountName:accountString
+				amount:+amountString,
+				date:parseDate(dateString),
+				accountName: accountString
 			})
 		})
 		return res;
