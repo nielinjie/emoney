@@ -11,10 +11,11 @@
         <meta name="viewport" content="width=device-width"/>
 
         <link rel="stylesheet" href="styles/main.css"/>
-        <link rel="stylesheet" href="styles/app.css"/>
         <link rel="stylesheet" href="components/bootstrap/css/bootstrap-responsive.min.css"/>
         <link rel="stylesheet" href="components/bootstrap/css/bootstrap.min.css"/>
         <link rel="stylesheet" href="styles/vendor/bwizard.css"/>
+        <link rel="stylesheet" href="styles/app.css"/>
+
         <script src="scripts/vendor/jquery-1.7.2.min.js"></script>
         <script src="scripts/vendor/handlebars-1.0.0.beta.6.js"></script>
         <script src="scripts/vendor/ember-1.0.0-pre.2.js"></script>
@@ -39,7 +40,7 @@
 
                 <!-- page two of wizard -->
                 <div>
-                                        <div class="scroll-box h250">
+                                        <div class="scroll-box h400">
                         <table class="table table-condensed table-bordered preview-table">
                             <thead>
                                 <tr>
@@ -58,11 +59,11 @@
                                 {{#view Emoney.PreviewItemView}}
                                     <tr>
                                         <td>{{view Em.Checkbox checkedBinding="item.isSelected"}}</td>
-                                        <td>{{item.date}}</td>
+                                        <td>{{item.formatedDate}}</td>
                                         <td>{{item.subject}}</td>
                                         <td>{{item.amount}}</td>
                                         <td>
-                                            {{item.memo}}
+                                            {{editable item.memo}}
                                         </td>
                                         <td>
                                             {{item.category}}
@@ -88,7 +89,7 @@
                         Memo: 
                         {{view Ember.TextField valueBinding="view.selectedMemo"}}
                         Category: 
-                        {{view Ember.Select contentBinding="Emoney.categoryNames"}}
+                        {{view Ember.Select contentBinding="Emoney.categoryNames" selectionBinding="view.selectedCategory" prompt="select category"}}
                         <a class="btn" {{action "add"}}>Add to Repository</a>
                     </div>
 
@@ -113,7 +114,7 @@
                     {{#each Emoney.repository}}
                         {{#view Emoney.PreviewItemView}}
                             <tr>
-                                <td>{{date}}</td>
+                                <td>{{formatedDate}}</td>
                                 <td>{{subject}}</td>
                                 <td>{{amount}}</td>
                                 <td>{{memo}}</td>
@@ -166,6 +167,18 @@
             </div>
         </script>
     
+
+        <script type="text/x-handlebars" data-template-name="edit-field">
+            {{#if view.isEditing}}
+                {{view Emoney.TextField valueBinding="view.value" propagatesEvents=true}}
+            {{else}}
+                {{#if view.value}}
+                    {{view.value}}
+                {{else}}
+                    <span class="no-name">-empty-</span>
+                {{/if}}
+            {{/if}}
+        </script>
 
         <!--[if lt IE 7]>
             <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>

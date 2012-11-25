@@ -11,6 +11,12 @@ Emoney.ApplicationView = Ember.View.extend({
 	       },
 	       'margin-left': function () { 
 	           return -($(this).width() / 2); 
+	       },
+	       'height': function () { 
+	           return ($(document).height() * .9) + 'px';  
+	       },
+	       'margin-top': function () { 
+	           return -($(this).height() / 2); 
 	       }
 		});
 
@@ -77,13 +83,15 @@ Emoney.PreviewView= Ember.View.extend({
 
 	selectedCategory:function(key,value){
 		if(arguments.length===1){
-			return ''
+			return null;
 		}else {
-			Emoney.preview.filter(function(item){
-				return item.isSelected;
-			}).forEach(function(item){
-				item.set('category',value);
-			});
+			if(value != null){
+				Emoney.preview.filter(function(item){
+					return item.isSelected;
+				}).forEach(function(item){
+					item.set('category',value);
+				});
+			}
 		}
 	}.property('selectedCategory'),
 
@@ -95,6 +103,45 @@ Emoney.PreviewView= Ember.View.extend({
 });
 
 
+
+Emoney.EditField = Ember.View.extend({
+  tagName: 'span',
+  templateName: 'edit-field',
+  isEditing:false,
+
+  doubleClick: function() {
+    this.set('isEditing', true);
+    return false;
+  },
+
+
+  focusOut: function() {
+    this.set('isEditing', false);
+  },
+
+  keyUp: function(evt) {
+    if (evt.keyCode === 13) {
+      this.set('isEditing', false);
+    }
+  }
+});
+Emoney.TextField = Ember.TextField.extend({
+  didInsertElement: function() {
+    this.$().focus();
+  }
+});
+
+Ember.Handlebars.registerHelper('editable', function(path, options) {
+  options.hash.valueBinding = path;
+  return Ember.Handlebars.helpers.view.call(this, Emoney.EditField, options);
+});
+
+
+
+
+
+
+Emoney.PreviewItemView=Ember.View.extend({});
 
 Emoney.initialize();
 

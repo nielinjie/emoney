@@ -12,11 +12,11 @@
 }
 
 
-.bottom-div {
-	height: 200px;
-	overflow: auto;
-	margin: 20px;
-}
+// .bottom-div {
+// 	height: 200px;
+// 	overflow: auto;
+// 	margin: 20px;
+// }
 
 .preview-table{
 	height: 100%;
@@ -27,20 +27,20 @@
 	height:100%;
 }
 .input-area {
-	height:230px;
+	height:400px;
 	width:90%;
 }
 
 #wizard .well{
-	height:300px;
+	height:450px;
 }
 
-#myModal {
-	width:1000px;
-	height:600px;
+.modal-body {
+	max-height: none;
 }
-.h250{
-	height:250px;
+
+.h400{
+	height:400px;
 }
 .scroll-box{
 	overflow-y:scroll;

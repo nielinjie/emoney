@@ -6,7 +6,7 @@ var draw=function(){
 	width = 960 - margin.left - margin.right,
 	height = 500 - margin.top - margin.bottom;
 
-	var parseDate = d3.time.format("%d-%b-%y").parse;
+	
 
 	var x = d3.time.scale()
 	    .range([0, width]);
@@ -37,11 +37,32 @@ var draw=function(){
 	    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 
-	var datas=Emoney.repository.get("content").sort(function(a,b){
+
+
+    var groupBySum=function(arr){
+		var group={};
+		for (var i = arr.length; --i >= 0;) {
+    		value = defaultDateFormat(arr[i].date);
+    		group[value] = (group[value] || 0) + arr[i].amount;
+		}
+		return group;
+	};
+
+
+	// var datas=Emoney.repository.get("content").sort(function(a,b){
+	// 	return a.date-b.date;
+	// })
+
+	var datas=[]
+	$.each(groupBySum(Emoney.repository.get("content").sort(function(a,b){
 		return a.date-b.date;
-	})
+	})),function(index,item){
+		console.log(index)
+		console.log(typeof(index))
+		datas.push({'date':defaultDateFormat.parse(index),'amount':item});
+	});
 
-
+	
 
 
 	// d3.tsv("data.tsv", function(error, data) {
