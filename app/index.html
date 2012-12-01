@@ -20,7 +20,7 @@
         <script src="scripts/vendor/handlebars-1.0.0.beta.6.js"></script>
         <script src="scripts/vendor/ember-1.0.0-pre.2.js"></script>
         <script src="scripts/vendor/ember-data-latest.js"></script>
-        <script src="scripts/vendor/localStorage_adapter.js"></script>
+        <script src="scripts/localStorage_adapter.js"></script>
 
         <script src="scripts/vendor/d3.v3.js"></script>
                 
@@ -119,8 +119,8 @@
                                 <td>{{formatedDate}}</td>
                                 <td>{{subject}}</td>
                                 <td>{{amount}}</td>
-                                <td>{{memo}}</td>
-                                <td>{{category}}</td>
+                                <td>{{editable memo}}</td>
+                                <td>{{editable-select category}}</td>
                             </tr>
                         {{/view}}
                     {{/each}}
@@ -182,6 +182,19 @@
             {{/if}}
         </script>
 
+
+
+        <script type="text/x-handlebars" data-template-name="edit-select">
+            {{#if view.isEditing}}
+                {{view Emoney.Select contentBinding="Emoney.categoryNames" selectionBinding="view.value" prompt="select category" propagatesEvents=true}}
+            {{else}}
+                {{#if view.value}}
+                    {{view.value}}
+                {{else}}
+                    <span class="empty-place-holder">-empty-</span>
+                {{/if}}
+            {{/if}}
+        </script>
         <!--[if lt IE 7]>
             <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
             <![endif]-->

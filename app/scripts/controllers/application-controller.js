@@ -2,11 +2,9 @@
 var defaultDateFormat = d3.time.format("%Y-%m-%d");
 
 Emoney.ApplicationController = Ember.ObjectController.extend({
-  // Implement your controller here.
 });
 
-
-Emoney.categoryNames=["Cash","Criet"]
+Emoney.categoryNames=["food","cloth"]
 
 Emoney.PreviewRecorder=Ember.Object.extend({
 isSelected:false,
@@ -21,10 +19,6 @@ isSelected:false,
 		return defaultDateFormat(this.get('date'))
 	}.property('date'),
 
-	updateMemo: function() {
-    	if (this.get('isDirty'))
-      		Emoney.store.commit();
-  	}.observes('memo')
 });
 
 Emoney.Recorder=DS.Model.extend({
@@ -43,19 +37,12 @@ Emoney.Recorder=DS.Model.extend({
 	updateMe: function() {
     	if (this.get('isDirty'))
       		Emoney.store.commit();
-  	}.observes('memo')
+  	}.observes('memo','category')
 });
 
 Emoney.preview = Ember.ArrayProxy.create({
 	content : []
 });
-
-
-// Emoney.parsResult=Ember.Object.extend({
-// 	string:'Pase data to textArea above, and press "Parse and Preview".',
-// 	level:'info'
-// })
-
 
 Emoney.repository=Ember.ArrayProxy.create({
 	content:[],
@@ -92,16 +79,11 @@ Emoney.repository=Ember.ArrayProxy.create({
 			datas.push({'date':defaultDateFormat.parse(index),'amount':item});
 		});
 		return datas;
-		//return get('content').length;
-	}.property('content.@each'),
-
-	what:function(){
-		return this.get('first'+'haha')
-	}.property('first'),
-
-	cl:function(){
-		return this.get('first'+'haha')
 	}.property('content.@each')
+
+
+	//sumByCategory
+	//sumByOwner
 })
 
 Emoney.parser = Ember.Controller.create({
@@ -130,6 +112,5 @@ Emoney.parser = Ember.Controller.create({
 	parts: function(line){
 		return line.split('\t')
 	}
-
 });
 

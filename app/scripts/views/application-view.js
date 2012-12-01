@@ -16,35 +16,18 @@ Emoney.ApplicationView = Ember.View.extend({
 	           return -($(this).height() / 2); 
 	       }
 		});
-
-
-		//draw();
-		//register draw;
-
 		
-		Emoney.repository.addObserver("what",function(){
-			console.log('what changed')
-			//draw(Emoney.repository.get('groupBySum'));
-		});
 
-		Emoney.repository.addObserver("cl",function(){
-			console.log('cl changed')
-			//draw(Emoney.repository.get('groupBySum'));
-		});
+
+    
 		Emoney.repository.addObserver("sumByDate",function(){
 			console.log('sumByDate changed')
 			draw(Emoney.repository.get('sumByDate'));
 		});
-    	//Emoney.repository.set('content', Emoney.store.findAll(Emoney.Recorder));
-    	Emoney.repository.set('first', 'what is first');
-    	Emoney.repository.set('content',Emoney.store.findAll(Emoney.Recorder))
+		Emoney.repository.set('content',Emoney.store.findAll(Emoney.Recorder))
 
 	}
 });
-
-// Emoney.ParseResultView=Ember.View.extend({
-// 	templateName:'parseResult'
-// })
 
 Emoney.RepositoryView = Ember.View.extend({
 	templateName: 'repository',
@@ -69,19 +52,13 @@ Emoney.PreviewView= Ember.View.extend({
 	},
 
 	add: function(e){
-		// Emoney.repository.pushObjects(Emoney.preview.content.filter(function(item){
-		// 	return item.get('isSelected');
-		// }));
-		
 		var selected=Emoney.preview.content.filter(function(item){
 			return item.get('isSelected');
 		});
 		Emoney.repository.createItem(selected);
-
-
 		Emoney.preview.removeObjects(selected);
-		
 	},
+
 	selectByFilter: function(e){
 		var f=this.filters[e.context];
 		Emoney.preview.forEach(function(item){
@@ -119,14 +96,10 @@ Emoney.PreviewView= Ember.View.extend({
 		}
 	}.property('selectedCategory'),
 
-
 	didInsertElement: function(){
-		//$("#filter-btn").popover({trigger:'click',target:'#filters-div',title:'Selector'}); 
 		$("#wizard").bwizard({nextBtnText:'',backBtnText:'Input'});
 	}
 });
-
-
 
 Emoney.EditField = Ember.View.extend({
   tagName: 'span',
@@ -149,21 +122,42 @@ Emoney.EditField = Ember.View.extend({
     }
   }
 });
+
+Emoney.EditSelect=Ember.View.extend({
+	tagName: 'span',
+  templateName: 'edit-select',
+  isEditing:false,
+
+doubleClick: function() {
+    this.set('isEditing', true);
+    return false;
+  },
+  focusOut: function() {
+    this.set('isEditing', false);
+  }
+})
+
 Emoney.TextField = Ember.TextField.extend({
   didInsertElement: function() {
     this.$().focus();
   }
 });
 
+Emoney.Select=Ember.Select.extend({
+	didInsertElement:function(){
+		this.$().focus();
+	}
+})
+
 Ember.Handlebars.registerHelper('editable', function(path, options) {
   options.hash.valueBinding = path;
   return Ember.Handlebars.helpers.view.call(this, Emoney.EditField, options);
 });
 
-
-
-
-
+Ember.Handlebars.registerHelper('editable-select', function(path, options) {
+  options.hash.valueBinding = path;
+  return Ember.Handlebars.helpers.view.call(this, Emoney.EditSelect, options);
+});
 
 Emoney.PreviewItemView=Ember.View.extend({});
 
