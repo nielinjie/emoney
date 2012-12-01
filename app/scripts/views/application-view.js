@@ -2,10 +2,7 @@ Emoney.ApplicationView = Ember.View.extend({
 	templateName:'application',
 	didInsertElement: function(){
 
-		$('#myModal').modal({
-	        backdrop: true,
-	        keyboard: true
-	    }).css({
+		$('#myModal').css({
 	       'width': function () { 
 	           return ($(document).width() * .9) + 'px';  
 	       },
@@ -19,6 +16,28 @@ Emoney.ApplicationView = Ember.View.extend({
 	           return -($(this).height() / 2); 
 	       }
 		});
+
+
+		//draw();
+		//register draw;
+
+		
+		Emoney.repository.addObserver("what",function(){
+			console.log('what changed')
+			//draw(Emoney.repository.get('groupBySum'));
+		});
+
+		Emoney.repository.addObserver("cl",function(){
+			console.log('cl changed')
+			//draw(Emoney.repository.get('groupBySum'));
+		});
+		Emoney.repository.addObserver("sumByDate",function(){
+			console.log('sumByDate changed')
+			draw(Emoney.repository.get('sumByDate'));
+		});
+    	//Emoney.repository.set('content', Emoney.store.findAll(Emoney.Recorder));
+    	Emoney.repository.set('first', 'what is first');
+    	Emoney.repository.set('content',Emoney.store.findAll(Emoney.Recorder))
 
 	}
 });
@@ -50,13 +69,18 @@ Emoney.PreviewView= Ember.View.extend({
 	},
 
 	add: function(e){
-		Emoney.repository.pushObjects(Emoney.preview.content.filter(function(item){
+		// Emoney.repository.pushObjects(Emoney.preview.content.filter(function(item){
+		// 	return item.get('isSelected');
+		// }));
+		
+		var selected=Emoney.preview.content.filter(function(item){
 			return item.get('isSelected');
-		}));
-		Emoney.preview.removeObjects(Emoney.preview.content.filter(function(item){
-			return item.get('isSelected');
-		}));
-		draw();
+		});
+		Emoney.repository.createItem(selected);
+
+
+		Emoney.preview.removeObjects(selected);
+		
 	},
 	selectByFilter: function(e){
 		var f=this.filters[e.context];

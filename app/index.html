@@ -19,6 +19,8 @@
         <script src="scripts/vendor/jquery-1.7.2.min.js"></script>
         <script src="scripts/vendor/handlebars-1.0.0.beta.6.js"></script>
         <script src="scripts/vendor/ember-1.0.0-pre.2.js"></script>
+        <script src="scripts/vendor/ember-data-latest.js"></script>
+        <script src="scripts/vendor/localStorage_adapter.js"></script>
 
         <script src="scripts/vendor/d3.v3.js"></script>
                 
@@ -137,7 +139,7 @@
 
                     <a href="#myModal" role="button" class="btn" data-toggle="modal">Import...</a>
      
-                    <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div id="myModal" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                             <h3 id="myModalLabel">Modal header</h3>
@@ -175,7 +177,7 @@
                 {{#if view.value}}
                     {{view.value}}
                 {{else}}
-                    <span class="no-name">-empty-</span>
+                    <span class="empty-place-holder">-empty-</span>
                 {{/if}}
             {{/if}}
         </script>

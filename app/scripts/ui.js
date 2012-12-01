@@ -1,5 +1,5 @@
 
-var draw=function(){
+var draw=function(sumByDate){
 
 
 	var margin = {top: 20, right: 20, bottom: 30, left: 50},
@@ -39,28 +39,15 @@ var draw=function(){
 
 
 
-    var groupBySum=function(arr){
-		var group={};
-		for (var i = arr.length; --i >= 0;) {
-    		value = defaultDateFormat(arr[i].date);
-    		group[value] = (group[value] || 0) + arr[i].amount;
-		}
-		return group;
-	};
+    
 
 
 	// var datas=Emoney.repository.get("content").sort(function(a,b){
 	// 	return a.date-b.date;
 	// })
 
-	var datas=[]
-	$.each(groupBySum(Emoney.repository.get("content").sort(function(a,b){
-		return a.date-b.date;
-	})),function(index,item){
-		console.log(index)
-		console.log(typeof(index))
-		datas.push({'date':defaultDateFormat.parse(index),'amount':item});
-	});
+	var datas=sumByDate;
+
 
 	
 

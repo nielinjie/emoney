@@ -8,18 +8,43 @@ Emoney.ApplicationController = Ember.ObjectController.extend({
 
 Emoney.categoryNames=["Cash","Criet"]
 
-Emoney.Recorder=Ember.Object.extend({
-	isSelected:false,
+Emoney.PreviewRecorder=Ember.Object.extend({
+isSelected:false,
 	memo: '',
-	subject:'',
+	subject: '',
 	amount: 0,
 	date: new Date(),
 	accountName:'',
 	category:'',
+
 	formatedDate: function(key,value){
 		return defaultDateFormat(this.get('date'))
-	}.property('date')
-	});
+	}.property('date'),
+
+	updateMemo: function() {
+    	if (this.get('isDirty'))
+      		Emoney.store.commit();
+  	}.observes('memo')
+});
+
+Emoney.Recorder=DS.Model.extend({
+	isSelected:false,
+	memo: DS.attr('string'),
+	subject: DS.attr('string'),
+	amount: DS.attr('number'),
+	date: DS.attr('date'),
+	accountName:DS.attr('string'),
+	category:DS.attr('string'),
+
+	formatedDate: function(key,value){
+		return defaultDateFormat(this.get('date'))
+	}.property('date'),
+
+	updateMe: function() {
+    	if (this.get('isDirty'))
+      		Emoney.store.commit();
+  	}.observes('memo')
+});
 
 Emoney.preview = Ember.ArrayProxy.create({
 	content : []
@@ -33,7 +58,50 @@ Emoney.preview = Ember.ArrayProxy.create({
 
 
 Emoney.repository=Ember.ArrayProxy.create({
-	content:[]
+	content:[],
+	first:'firstname',
+	createItem:function(items){
+		items.forEach(function(item){
+			Emoney.Recorder.createRecord({
+				memo:item.memo,
+				subject:item.subject,
+				amount:item.amount,
+				date:item.date
+			});
+		});
+		Emoney.store.commit(); 
+	},
+
+	sumByDate:function(){
+		var datas=[];
+
+		var groupBySum=function(arr){
+			var group={};
+			for (var i = arr.length; --i >= 0;) {
+    			value = defaultDateFormat(arr[i].get('date'));
+    			group[value] = (group[value] || 0) + arr[i].get('amount');
+			}
+			return group;
+		};
+
+		$.each(groupBySum(Emoney.repository.get("content").toArray().sort(function(a,b){
+			return a.get('date')-b.get('date');
+		})),function(index,item){
+			console.log(index)
+			console.log(typeof(index))
+			datas.push({'date':defaultDateFormat.parse(index),'amount':item});
+		});
+		return datas;
+		//return get('content').length;
+	}.property('content.@each'),
+
+	what:function(){
+		return this.get('first'+'haha')
+	}.property('first'),
+
+	cl:function(){
+		return this.get('first'+'haha')
+	}.property('content.@each')
 })
 
 Emoney.parser = Ember.Controller.create({
@@ -47,7 +115,7 @@ Emoney.parser = Ember.Controller.create({
 			var amountString=parts[5].trim();
 			var dateString=parts[0].trim();
 			var accountString = parts[4].trim();
-			return Emoney.Recorder.create({
+			return Emoney.PreviewRecorder.create({
 				subject:subjectString,
 				amount:+amountString,
 				date:defaultDateFormat.parse(dateString),
@@ -65,6 +133,3 @@ Emoney.parser = Ember.Controller.create({
 
 });
 
-
-
-//Emoney.preview=Ember.ArrayControl
