@@ -68,7 +68,7 @@
                                             {{editable item.memo}}
                                         </td>
                                         <td>
-                                            {{item.category}}
+                                            {{editable item.category}}
                                         </td>
                                     </tr>
                                 {{/view}}
@@ -120,7 +120,7 @@
                                 <td>{{subject}}</td>
                                 <td>{{amount}}</td>
                                 <td>{{editable memo}}</td>
-                                <td>{{editable-select category}}</td>
+                                <td>{{editable category}}</td>
                             </tr>
                         {{/view}}
                     {{/each}}
@@ -215,6 +215,11 @@
         <script src="components/bootstrap/js/bootstrap.js"></script>
         <script src="scripts/vendor/bwizard.js"></script>
         <script src="scripts/main.js"></script>
+        <script src="scripts/models/application-model.js"></script>
+        <script src="scripts/models/recorder.js"></script>
+        <script src="scripts/models/split.js"></script>
+        <script src="scripts/models/parsers.js"></script>
+        <script src="scripts/models/preview.js"></script>
         <script src="scripts/controllers/application-controller.js"></script>
         <script src="scripts/views/application-view.js"></script>
  

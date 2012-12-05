@@ -125,17 +125,21 @@ Emoney.EditField = Ember.View.extend({
 
 Emoney.EditSelect=Ember.View.extend({
 	tagName: 'span',
-  templateName: 'edit-select',
-  isEditing:false,
+  	templateName: 'edit-select',
+  	isEditing:false,
 
-doubleClick: function() {
-    this.set('isEditing', true);
-    return false;
-  },
-  focusOut: function() {
-    this.set('isEditing', false);
-  }
+	doubleClick: function() {
+    	this.set('isEditing', true);
+    	return false;
+  	},
+  	focusOut: function() {
+    	this.set('isEditing', false);
+  	}
 })
+
+
+
+
 
 Emoney.TextField = Ember.TextField.extend({
   didInsertElement: function() {
