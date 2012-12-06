@@ -15,8 +15,8 @@ Emoney.Recorder=DS.Model.extend({
 
 	updateMe: function() {
     	if (this.get('isDirty'))
-    		console.log(this)
-      		//Emoney.store.commit();
+    		//console.log(this)
+      		Emoney.store.commit();
   	}.observes('memo','category')
 });
 

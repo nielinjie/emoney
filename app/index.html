@@ -24,6 +24,9 @@
 
         <script src="scripts/vendor/d3.v3.js"></script>
                 
+
+        <link href="styles/vendor/bootstrap-editable.css" rel="stylesheet">
+        <script src="scripts/vendor/bootstrap-editable.js"></script>
     </head>
    
 
@@ -65,10 +68,10 @@
                                         <td>{{item.subject}}</td>
                                         <td>{{item.amount}}</td>
                                         <td>
-                                            {{editable item.memo}}
+                                            {{item.memo}}
                                         </td>
                                         <td>
-                                            {{editable item.category}}
+                                            {{item.category}}
                                         </td>
                                     </tr>
                                 {{/view}}
@@ -113,14 +116,18 @@
                         </tr>
                     </thead>
                     <tbody>
-                    {{#each Emoney.repository}}
+                    {{#each item in Emoney.repository}}
                         {{#view Emoney.PreviewItemView}}
                             <tr>
-                                <td>{{formatedDate}}</td>
-                                <td>{{subject}}</td>
-                                <td>{{amount}}</td>
-                                <td>{{editable memo}}</td>
-                                <td>{{editable category}}</td>
+                                <td>{{item.formatedDate}}</td>
+                                <td>{{item.subject}}</td>
+                                <td>{{item.amount}}</td>
+                                <td>
+                                    {{#view Emoney.EditView valueBinding="item.memo"}}
+                                        <div class="edit" data-type="text" data-send="false"></div>
+                                    {{/view}}
+                                </td>
+                                <td>{{category}}</td>
                             </tr>
                         {{/view}}
                     {{/each}}
@@ -170,31 +177,6 @@
         </script>
     
 
-        <script type="text/x-handlebars" data-template-name="edit-field">
-            {{#if view.isEditing}}
-                {{view Emoney.TextField valueBinding="view.value" propagatesEvents=true}}
-            {{else}}
-                {{#if view.value}}
-                    {{view.value}}
-                {{else}}
-                    <span class="empty-place-holder">-empty-</span>
-                {{/if}}
-            {{/if}}
-        </script>
-
-
-
-        <script type="text/x-handlebars" data-template-name="edit-select">
-            {{#if view.isEditing}}
-                {{view Emoney.Select contentBinding="Emoney.categoryNames" selectionBinding="view.value" prompt="select category" propagatesEvents=true}}
-            {{else}}
-                {{#if view.value}}
-                    {{view.value}}
-                {{else}}
-                    <span class="empty-place-holder">-empty-</span>
-                {{/if}}
-            {{/if}}
-        </script>
         <!--[if lt IE 7]>
             <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
             <![endif]-->

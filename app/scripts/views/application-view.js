@@ -101,67 +101,28 @@ Emoney.PreviewView= Ember.View.extend({
 	}
 });
 
-Emoney.EditField = Ember.View.extend({
-  tagName: 'span',
-  templateName: 'edit-field',
-  isEditing:false,
-
-  doubleClick: function() {
-    this.set('isEditing', true);
-    return false;
-  },
-
-
-  focusOut: function() {
-    this.set('isEditing', false);
-  },
-
-  keyUp: function(evt) {
-    if (evt.keyCode === 13) {
-      this.set('isEditing', false);
-    }
-  }
-});
-
-Emoney.EditSelect=Ember.View.extend({
-	tagName: 'span',
-  	templateName: 'edit-select',
-  	isEditing:false,
-
-	doubleClick: function() {
-    	this.set('isEditing', true);
-    	return false;
-  	},
-  	focusOut: function() {
-    	this.set('isEditing', false);
-  	}
-})
 
 
 
-
-
-Emoney.TextField = Ember.TextField.extend({
-  didInsertElement: function() {
-    this.$().focus();
-  }
-});
-
-Emoney.Select=Ember.Select.extend({
-	didInsertElement:function(){
-		this.$().focus();
+Emoney.EditView= Ember.View.extend({
+	didInsertElement: function(){
+		var outter=this
+		$('.edit').editable({
+			value:this.get('value'),
+			url:function(newValue){
+				outter.set('value',newValue.value)
+			},
+			params:{view:this}
+		});
+	},
+	_setNewValue:function(newValue){
+		//var view=newValue.view
+		
 	}
 })
 
-Ember.Handlebars.registerHelper('editable', function(path, options) {
-  options.hash.valueBinding = path;
-  return Ember.Handlebars.helpers.view.call(this, Emoney.EditField, options);
-});
 
-Ember.Handlebars.registerHelper('editable-select', function(path, options) {
-  options.hash.valueBinding = path;
-  return Ember.Handlebars.helpers.view.call(this, Emoney.EditSelect, options);
-});
+
 
 Emoney.PreviewItemView=Ember.View.extend({});
 
