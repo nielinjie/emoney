@@ -28,7 +28,6 @@ DS.localStorageAdapter = DS.Adapter.extend({
   },
 
   deleteRecord: function(store, type, model) {
-    console.log('hi.');
     var id = model.get('id');
     var record = this.toData(model, { includeId: true });
 
@@ -41,7 +40,6 @@ DS.localStorageAdapter = DS.Adapter.extend({
     });
 
     records.splice(index, 1);
-    console.log(records);
 
     this.storage.setAll(type, records);
     
@@ -56,7 +54,6 @@ DS.localStorageAdapter = DS.Adapter.extend({
   },
 
   findAll: function(store, type) {
-    console.log("findAll called");
     var allRecords = this.storage.getAll(type);
     store.loadMany(type, allRecords);
   },

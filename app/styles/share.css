@@ -1,0 +1,17 @@
+.editable-share {
+    display: block;
+    margin-bottom: 5px;  
+}
+
+.editable-share  span{
+    margin-left: 10px}
+
+.editable-share  input{
+    width: 60px;  
+    display: inline-block;
+}
+
+
+.editable-input {
+	max-width: 300px;
+}

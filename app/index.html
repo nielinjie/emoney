@@ -27,6 +27,10 @@
 
         <link href="styles/vendor/bootstrap-editable.css" rel="stylesheet">
         <script src="scripts/vendor/bootstrap-editable.js"></script>
+
+        <link href="styles/share.css" rel="stylesheet">
+        <script src="scripts/models/share.js"></script>
+
     </head>
    
 
@@ -123,11 +127,9 @@
                                 <td>{{item.subject}}</td>
                                 <td>{{item.amount}}</td>
                                 <td>
-                                    {{#view Emoney.EditView valueBinding="item.memo"}}
-                                        <div class="edit" data-type="text" data-send="false"></div>
-                                    {{/view}}
+                                    {{view Emoney.EditView valueBinding="item.memo" type="text"}}
                                 </td>
-                                <td>{{category}}</td>
+                                <td>{{view Emoney.EditView valueBinding="item.category" type="share"}}</td>
                             </tr>
                         {{/view}}
                     {{/each}}

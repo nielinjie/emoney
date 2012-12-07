@@ -105,9 +105,13 @@ Emoney.PreviewView= Ember.View.extend({
 
 
 Emoney.EditView= Ember.View.extend({
+	tagName:'div',
+	classNames:['edit'],
 	didInsertElement: function(){
 		var outter=this
-		$('.edit').editable({
+		$(this.get('element')).editable({
+			send:false,
+			type:this.get('type'),
 			value:this.get('value'),
 			url:function(newValue){
 				outter.set('value',newValue.value)
@@ -115,10 +119,6 @@ Emoney.EditView= Ember.View.extend({
 			params:{view:this}
 		});
 	},
-	_setNewValue:function(newValue){
-		//var view=newValue.view
-		
-	}
 })
 
 

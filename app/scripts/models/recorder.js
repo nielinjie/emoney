@@ -5,7 +5,7 @@ Emoney.Recorder=DS.Model.extend({
 	amount: DS.attr('number'),
 	date: DS.attr('date'),
 	accountName:DS.attr('string'),
-	category:DS.attr('string'),
+	category:DS.attr('obj'),
 	//owner:DS.belongsTo('Emoney.Share'),
 
 
@@ -32,7 +32,7 @@ Emoney.repository=Ember.ArrayProxy.create({
 				subject:item.subject,
 				amount:item.amount,
 				date:item.date,
-				category:'unknow:100%'
+				//category:[{unknow:'100%'}]
 			});
 			
 		});
@@ -54,8 +54,6 @@ Emoney.repository=Ember.ArrayProxy.create({
 		$.each(groupBySum(Emoney.repository.get("content").toArray().sort(function(a,b){
 			return a.get('date')-b.get('date');
 		})),function(index,item){
-			console.log(index)
-			console.log(typeof(index))
 			datas.push({'date':defaultDateFormat.parse(index),'amount':item});
 		});
 		return datas;
